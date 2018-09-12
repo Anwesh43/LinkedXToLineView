@@ -9,6 +9,7 @@ import android.content.Context
 import android.view.MotionEvent
 import android.graphics.Paint
 import android.graphics.Canvas
+import android.graphics.Color
 
 val nodes : Int = 5
 
@@ -160,6 +161,27 @@ class XToLineView(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : XToLineView) {
+        private val lxtl : LinkedXToLine = LinkedXToLine(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            lxtl.draw(canvas, paint)
+            animator.animate {
+                lxtl.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            lxtl.startUpdating {
+                animator.start()
+            }
         }
     }
 }
