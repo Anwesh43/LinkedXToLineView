@@ -18,6 +18,7 @@ fun Canvas.drawXTLineNode(i : Int, scale : Float, paint : Paint) {
     val h : Float = height.toFloat()
     paint.strokeWidth = Math.min(w, h) / 60
     paint.strokeCap = Paint.Cap.ROUND
+    paint.color = Color.parseColor("#2962FF")
     val sc1 : Float = Math.min(0.5f, scale) * 2
     val sc2 : Float = Math.min(0.5f, Math.max(0f, scale - 0.5f)) * 2
     val gap = w / (nodes + 1)
@@ -38,15 +39,16 @@ fun Canvas.drawXTLineNode(i : Int, scale : Float, paint : Paint) {
 class XToLineView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val renderer : Renderer = Renderer(this)
 
     override fun onDraw(canvas : Canvas) {
-
+        renderer.render(canvas, paint)
     }
 
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                renderer.handleTap()
             }
         }
         return true
