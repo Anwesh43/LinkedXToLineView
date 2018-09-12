@@ -29,8 +29,8 @@ fun Canvas.drawXTLineNode(i : Int, scale : Float, paint : Paint) {
     for(j in 0..1) {
         val sf : Float = 1f - 2 * (j % 2)
         save()
-        translate(0f, (h/2 - size/2) * sc2)
-        rotate(45f * (1 - sc1))
+        translate(0f, (h/2 - size/2) * sf * sc2)
+        rotate(45f * (1 - sc1) * sf)
         drawLine(0f, -size/2, 0f, size/2, paint)
         restore()
     }
@@ -146,11 +146,12 @@ class XToLineView(ctx : Context) : View(ctx) {
     }
 
     data class LinkedXToLine(var i : Int) {
-        private var curr : XTLNode = XTLNode(0)
+        private var root : XTLNode = XTLNode(0)
+        private var curr : XTLNode = root
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint : Paint) {
-            curr.draw(canvas, paint)
+            root.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
