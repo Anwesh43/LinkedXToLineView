@@ -4,6 +4,7 @@ package com.anwesh.uiprojects.xtolineview
  * Created by anweshmishra on 12/09/18.
  */
 
+import android.app.Activity
 import android.view.View
 import android.content.Context
 import android.view.MotionEvent
@@ -184,6 +185,14 @@ class XToLineView(ctx : Context) : View(ctx) {
             lxtl.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : XToLineView {
+            val view : XToLineView = XToLineView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
